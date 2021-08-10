@@ -1,8 +1,8 @@
 import app from "./server.js";
 import { MongoClient } from "mongodb";
 import dotenv from "dotenv";
-import api from "./data-access-object/restaurantsDAO.js";
-
+import restaurantApi from "./mongodb-query/restaurants-query.js";
+import reviewApi from "./mongodb-query/reviews-query.js";
 dotenv.config();
 
 
@@ -13,7 +13,8 @@ client.connect().catch(err => {
     console.log(err.stack);
     process.exit(1);
 }).then(async () => {
-    await api.injectDB(client);
+    await restaurantApi.injectDB(client);
+    await reviewApi.injectDB(client);
     app.listen(port, () => {
         console.log(`listening on port ${port}`);
     })
